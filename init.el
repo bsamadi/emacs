@@ -41,8 +41,8 @@
  '(isearch ((t (:foreground "black" :background "yellow"))))
  '(list-mode-item-selected ((t (:background "gray68"))) t)
  '(paren-match ((t (:background "darkseagreen4"))) t)
- '(show-paren-match-face ((((class color)) (:foreground "black" :background "yellow"))))
- '(show-paren-mismatch-face ((((class color)) (:foreground "white" :background "red"))))
+ '(show-paren-match-face ((((class color)) (:foreground "black" :background "yellow"))) t)
+ '(show-paren-mismatch-face ((((class color)) (:foreground "white" :background "red"))) t)
  '(widget-field-face ((((class grayscale color) (background light)) (:background "DarkBlue"))) t))
 
 ;; to set the cursor color
@@ -57,23 +57,31 @@
 ; Org Mode
 (find-file "/host/Behzad/notes.org")
 (setq-default TeX-master t)
-(setq reftex-default-bibliography
-      (quote
-       ("/home/Y/maple/Honda/Honda.bib")))
 
 ;; Org Model and RefTeX
-(defun na-org-mode-reftex-setup ()
+(defun org-mode-reftex-search ()
+  ;;jump to the notes for the paper pointed to at from reftex search
   (interactive)
-  (load-library "reftex")
-  (and (buffer-file-name)
-       (file-exists-p (buffer-file-name))
-       (reftex-parse-all)))
+  (org-open-link-from-string (format "[[notes:%s]]" (reftex-citation t))))
 
+(defun org-mode-reftex-setup ()
+(load-library "reftex")
+(and (buffer-file-name) (file-exists-p (buffer-file-name))
+     (progn
+    ;enable auto-revert-mode to update reftex when bibtex file changes on disk
+    (global-auto-revert-mode t)
+    (reftex-parse-all)
+    ;add a custom reftex cite format to insert links
+    (reftex-set-cite-format
+    '((?b . "[[bib:%l][%l-bib]]")
+      (?p . "[[papers:%l][%l-paper]]")
+      (?n . "** %t\n:PROPERTIES:\n:Custom_ID: %l\n:END:\t[[papers:%l][%l-paper]]\t[[bib:%l][%l-bib]]\t[[biblist:%l][%l-biblist]]")
+      (?t . "%t")
+      (?h . "** %t\n:PROPERTIES:\n:Custom_ID: %l\n:END:\n[[papers:%l][%l-paper]]\t[[bib:%l][%l-bib]]\t[[notes:%l][%l-note]]")))))
+(define-key org-mode-map (kbd "C-c )") 'reftex-citation)
+(define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search))
 
-  (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-  (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
-  
-(add-hook 'org-mode-hook 'na-org-mode-reftex-setup)
+(add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
 ;; Org Model and LaTeX
 (unless (boundp 'org-latex-classes)
@@ -112,4 +120,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
+ '(cua-mode t nil (cua-base))
  '(inhibit-startup-screen t))

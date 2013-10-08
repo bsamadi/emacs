@@ -1,4 +1,4 @@
-emacs
-=====
-
 .emacs
+======
+
+My Emacs configuration

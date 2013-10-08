@@ -69,19 +69,9 @@
        (file-exists-p (buffer-file-name))
        (reftex-parse-all)))
 
-(progn
-	 ;enable auto-revert-mode to update reftex when bibtex file changes on disk
-	 (global-auto-revert-mode t)
-	 (reftex-parse-all)
-	 ;add a custom reftex cite format to insert links
-	 (reftex-set-cite-format
-	  '((?b . "[[bib:%l][%l-bib]]")
-	    (?n . "[[notes:%l][%l-notes]]")
-	    (?p . "[[papers:%l][%l-paper]]")
-	    (?t . "%t")
-	    (?h . "** %t\n:PROPERTIES:\n:Custom_ID: %l\n:END:\n[[papers:%l][%l-paper]]")))))
+
   (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-  (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search))
+  (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
   
 (add-hook 'org-mode-hook 'na-org-mode-reftex-setup)
 
@@ -122,5 +112,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
- '(inhibit-startup-screen t)
- 
+ '(inhibit-startup-screen t))

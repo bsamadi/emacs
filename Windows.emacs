@@ -80,7 +80,7 @@
 (setq-default TeX-master t)
 (setq reftex-default-bibliography
       (quote
-       ("path to bib")))
+       ("Y:/maple/Honda/Honda.bib")))
 
 (defun na-org-mode-reftex-setup ()
   (interactive)
@@ -94,6 +94,25 @@
 (require 'org-latex)
 (unless (boundp 'org-latex-classes)
   (setq org-latex-classes nil))
+(add-to-list 'org-latex-classes
+               '("article"
+                 "\\documentclass{article}
+                 [NO-DEFAULT-PACKAGES]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(add-to-list 'org-latex-classes
+               '("report"
+                 "\\documentclass{report}
+                 [NO-DEFAULT-PACKAGES]"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (add-to-list 'org-latex-classes
              '("amsbook"
                "\\documentclass{amsbook}

@@ -18,10 +18,6 @@
  '(global-font-lock-mode t nil (font-lock))
  '(transient-mark-mode t))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(default ((t (:foreground "white" :background "DarkSlateGray"))))
  '(font-lock-comment-face ((t (:foreground "green2"))))
  '(font-lock-doc-string-face ((t (:foreground "Coral"))) t)
@@ -76,7 +72,6 @@
 ;; Org Mode
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
-(find-file "C:/Behzad/notes.org")
 (setq-default TeX-master t)
 (setq reftex-default-bibliography
       (quote
@@ -107,7 +102,6 @@
                '("report"
                  "\\documentclass{report}
                  [NO-DEFAULT-PACKAGES]"
-                 ("\\chapter{%s}" . "\\chapter*{%s}")
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -124,11 +118,18 @@
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
              )
 
+'(org-latex-pdf-process (quote ("pdflatex -interaction nonstopmode -output-directory %o %f" 
+                                "bibtex %b" 
+                                "pdflatex -interaction nonstopmode -output-directory %o %f" 
+                                "pdflatex -interaction nonstopmode -output-directory %o %f")))
+
+'(org-latex-to-pdf-process (quote ("pdflatex -interaction nonstopmode -output-directory %o %f" 
+                                "bibtex %b" 
+                                "pdflatex -interaction nonstopmode -output-directory %o %f" 
+                                "pdflatex -interaction nonstopmode -output-directory %o %f")))
+
 (defun org-latex-no-toc (depth)  
     (when depth
       (format "%% Org-mode is exporting headings to %s levels.\n"
               depth)))
   (setq org-latex-format-toc-function 'org-latex-no-toc)
-
-(setq org-latex-to-pdf-process 
-  '("pdflatex %f" "bibtex %b" "pdflatex %f" "pdflatex %f"))

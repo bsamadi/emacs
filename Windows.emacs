@@ -1,3 +1,5 @@
+(server-start)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -35,7 +37,6 @@
  '(show-paren-mismatch ((((class color)) (:foreground "white" :background "red"))))
  '(widget-field ((((class grayscale color) (background light)) (:background "DarkBlue")))))
 
-(server-start)
 
 (autoload 'maplev-mode "maplev" "Maple editing mode" t)
 (setq 

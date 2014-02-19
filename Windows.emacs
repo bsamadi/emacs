@@ -5,6 +5,14 @@
 
 (recentf-mode) 
 
+(add-to-list 'exec-path "C:/Program Files (x86)/Aspell/bin/")
+(setq ispell-program-name "aspell")
+(setq ispell-personal-dictionary "C:/Program Files (x86)/Aspell/dict")
+(require 'ispell)
+
+(global-set-key (kbd "<f8>") 'ispell-word)
+(global-set-key (kbd "C-<f8>") 'flyspell-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -48,6 +56,13 @@
 (set-cursor-color "green") ;to set the cursor color
 (set-scroll-bar-mode 'right)
 
+;; Packages
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(package-initialize)
+
 ;; Maple
 (autoload 'maplev-mode "maplev" "Maple editing mode" t)
 (setq 
@@ -65,6 +80,10 @@
  maplev-description-quote-char ?\"
  )
 
+;; pandoc
+(load "pandoc-mode")
+(add-hook 'markdown-mode-hook 'turn-on-pandoc)
+
 ;; TeX
  '(TeX-PDF-mode t)
  '(TeX-bar-LaTeX-buttons (quote (new-file open-file dired kill-buffer save-buffer undo cut copy paste search-forward [separator nil] latex next-error view bibtex clean nil)))
@@ -74,9 +93,8 @@
  '(TeX-view-program-selection (quote (((output-dvi style-pstricks) "dvips and start") (output-dvi "Yap") (output-pdf "Sumatra PDF") (output-html "start"))))
 
 ;; AUCTeX 
-(package-initialize)
 (require 'tex)
-'(bib-file "C:/Users/bsamadi/projects.bib")
+'(bib-file "C:/Users/bsamadi/Maple/bsamadi_windows/projects/Honda/Honda.bib")
 
 ;; Org Mode
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -84,7 +102,7 @@
 (setq-default TeX-master t)
 (setq reftex-default-bibliography
       (quote
-       ("Y:/projects.bib")))
+       ("Y:/maple/Honda/Honda.bib")))
 
 (defun na-org-mode-reftex-setup ()
   (interactive)
